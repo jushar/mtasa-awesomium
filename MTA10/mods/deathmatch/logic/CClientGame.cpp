@@ -6489,13 +6489,7 @@ bool CClientGame::IsHighFloatPrecision ( void ) const
 bool CClientGame::TriggerBrowserRequestResultEvent(bool bAllowed)
 {
     CLuaArguments Arguments;
+    Arguments.PushBoolean(bAllowed);
 
-    if (bAllowed)
-    {
-        return GetRootEntity()->CallEvent("onClientBrowserRequestAllowed", Arguments, false);
-    }
-    else
-    {
-        return GetRootEntity()->CallEvent("onClientBrowserRequestDenied", Arguments, false);
-    }
+    return GetRootEntity()->CallEvent("onClientWebsiteRequestResult", Arguments, false);
 }

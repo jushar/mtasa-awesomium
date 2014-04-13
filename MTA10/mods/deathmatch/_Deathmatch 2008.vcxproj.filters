@@ -806,7 +806,7 @@
     <ClCompile Include="..\shared_logic\CClientEffectManager.cpp">
       <Filter>Source Files\shared_logic</Filter>
     </ClCompile>
-    <ClCompile Include="CClientWebBrowser.cpp">
+    <ClCompile Include="..\shared_logic\CClientWebBrowser.cpp">
       <Filter>Source Files\shared_logic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1507,7 +1507,7 @@
     <ClInclude Include="..\shared_logic\CClientEffectManager.h">
       <Filter>Header Files\shared_logic</Filter>
     </ClInclude>
-    <ClInclude Include="CClientWebBrowser.h">
+    <ClInclude Include="..\shared_logic\CClientWebBrowser.h">
       <Filter>Header Files\shared_logic</Filter>
     </ClInclude>
   </ItemGroup>

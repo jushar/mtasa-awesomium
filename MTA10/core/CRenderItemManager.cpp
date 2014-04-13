@@ -459,8 +459,7 @@ void CRenderItemManager::UpdateScreenSource ( CScreenSourceItem* pScreenSourceIt
 //
 // CRenderItemManager::UpdateWebBrowser
 //
-// Copy from back buffer store to screen source
-// TODO - Optimize the case where the screen source is the same size as the back buffer copy (i.e. Use back buffer copy resources instead)
+// Copy from Awesomium BitmapSurface to DirectX surface (an own implementation of BitmapSurfaceFactory might be better tho)
 //
 ////////////////////////////////////////////////////////////////
 void CRenderItemManager::UpdateWebBrowser(CWebBrowserItem* pWebBrowserItem)
@@ -489,8 +488,7 @@ void CRenderItemManager::UpdateWebBrowser(CWebBrowserItem* pWebBrowserItem)
     // Update our DX surface
     D3DLOCKED_RECT LockedRect;
     D3DSURFACE_DESC SurfaceDesc;
-    IDirect3DSurface9* pDXSurface; // = pWebBrowserItem->m_pD3DRenderTargetSurface;
-    ((IDirect3DTexture9*)pWebBrowserItem->m_pD3DTexture)->GetSurfaceLevel(0, &pDXSurface);
+    IDirect3DSurface9* pDXSurface = pWebBrowserItem->m_pD3DRenderTargetSurface;
 
     // First, lock the surface and request some information
     pDXSurface->GetDesc(&SurfaceDesc);
@@ -498,14 +496,6 @@ void CRenderItemManager::UpdateWebBrowser(CWebBrowserItem* pWebBrowserItem)
 
     // Copy Awesomium buffer to our DX surface
     pAwSurface->CopyTo(reinterpret_cast<unsigned char*>(LockedRect.pBits), SurfaceDesc.Width * 4, 4, false, false);
-
-    /*for (int y = 0; y < SurfaceDesc.Height; ++y)
-    {
-        for (int x = 0; x < SurfaceDesc.Width; ++x)
-        {
-            
-        }
-    }*/
 
     // Finally, unlock the surface
     pDXSurface->UnlockRect();

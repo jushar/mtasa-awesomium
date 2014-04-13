@@ -204,8 +204,8 @@
   <ItemGroup>
     <ClCompile Include="..\shared_logic\CClientEffect.cpp" />
     <ClCompile Include="..\shared_logic\CClientEffectManager.cpp" />
+    <ClCompile Include="..\shared_logic\CClientWebBrowser.cpp" />
     <ClCompile Include="CClient.cpp" />
-    <ClCompile Include="CClientWebBrowser.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientCommands.cpp" />
     <ClCompile Include="CVoiceRecorder.cpp" />
@@ -588,8 +588,8 @@
   <ItemGroup>
     <ClInclude Include="..\shared_logic\CClientEffect.h" />
     <ClInclude Include="..\shared_logic\CClientEffectManager.h" />
+    <ClInclude Include="..\shared_logic\CClientWebBrowser.h" />
     <ClInclude Include="CClient.h" />
-    <ClInclude Include="CClientWebBrowser.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientCommands.h" />
     <ClInclude Include="CVoiceRecorder.h" />
