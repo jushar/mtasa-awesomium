@@ -1167,6 +1167,21 @@ void CLuaManager::LoadCFunctions ( void )
     CLuaCFunctions::AddFunction ( "bitExtract", CLuaFunctionDefs::BitExtract );
     CLuaCFunctions::AddFunction ( "bitReplace", CLuaFunctionDefs::BitReplace );
 
+    // Browser functions
+    CLuaCFunctions::AddFunction("createBrowser", CLuaFunctionDefs::CreateBrowser);
+    CLuaCFunctions::AddFunction("updateBrowser", CLuaFunctionDefs::UpdateBrowser);
+    CLuaCFunctions::AddFunction("requestBrowserPages", CLuaFunctionDefs::RequestBrowserPages);
+    CLuaCFunctions::AddFunction("loadBrowserURL", CLuaFunctionDefs::LoadBrowserURL);
+    CLuaCFunctions::AddFunction("isBrowserLoading", CLuaFunctionDefs::IsBrowserLoading);
+    CLuaCFunctions::AddFunction("injectBrowserMouseMove", CLuaFunctionDefs::InjectBrowserMouseMove);
+    CLuaCFunctions::AddFunction("injectBrowserMouseDown", CLuaFunctionDefs::InjectBrowserMouseDown);
+    CLuaCFunctions::AddFunction("injectBrowserMouseUp", CLuaFunctionDefs::InjectBrowserMouseUp);
+    CLuaCFunctions::AddFunction("injectBrowserKeyDown", CLuaFunctionDefs::InjectBrowserKeyDown);
+    CLuaCFunctions::AddFunction("injectBrowserKeyUp", CLuaFunctionDefs::InjectBrowserKeyUp);
+    CLuaCFunctions::AddFunction("injectBrowserCharacter", CLuaFunctionDefs::InjectBrowserCharacter);
+    CLuaCFunctions::AddFunction("getBrowserTitle", CLuaFunctionDefs::GetBrowserTitle);
+    CLuaCFunctions::AddFunction("getBrowserURL", CLuaFunctionDefs::GetBrowserURL);
+
     // Luadef definitions
     CLuaFileDefs::LoadFunctions ();
     CLuaFxDefs::LoadFunctions ();

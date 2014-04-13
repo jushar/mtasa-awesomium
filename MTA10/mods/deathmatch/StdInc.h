@@ -48,6 +48,7 @@
 #include "net/SyncStructures.h"
 #include "CIdArray.h"
 #include "pcrecpp.h"
+#include <core/CAwesomiumInterface.h>
 
 // Shared logic includes
 #include <Utils.h>
@@ -108,6 +109,7 @@
 #include <luadefs/CLuaFileDefs.h>
 #include <lua/oopdefs/CLuaOOPDefs.h>
 #include <CRemoteCalls.h>
+#include <CClientWebBrowser.h>
 
 // Shared includes
 #include "TInterpolation.h"

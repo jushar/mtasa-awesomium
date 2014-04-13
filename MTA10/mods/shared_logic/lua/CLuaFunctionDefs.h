@@ -992,6 +992,21 @@ public:
     LUA_DECLARE ( BitExtract );
     LUA_DECLARE ( BitReplace );
 
+    // Webbrowser (Awesomium) functions
+    LUA_DECLARE ( CreateBrowser );
+    LUA_DECLARE ( UpdateBrowser );
+    LUA_DECLARE ( RequestBrowserPages );
+    LUA_DECLARE ( LoadBrowserURL );
+    LUA_DECLARE ( IsBrowserLoading );
+    LUA_DECLARE ( InjectBrowserMouseMove );
+    LUA_DECLARE ( InjectBrowserMouseDown );
+    LUA_DECLARE ( InjectBrowserMouseUp );
+    LUA_DECLARE(InjectBrowserKeyDown);
+    LUA_DECLARE(InjectBrowserKeyUp);
+    LUA_DECLARE(InjectBrowserCharacter)
+    LUA_DECLARE(GetBrowserTitle);
+    LUA_DECLARE(GetBrowserURL);
+
 private:
     // Static references to objects
     static CLuaManager*                 m_pLuaManager;

@@ -11,6 +11,9 @@
 #include "StdInc.h"
 #include <game/CGame.h>
 #include "CRenderItem.EffectCloner.h"
+#include <awesomium/WebCore.h>
+#include <Awesomium/BitmapSurface.h>
+#include <Awesomium/STLHelpers.h>
 
 // Type of vertex used to emulate StretchRect for SwiftShader bug
 struct SRTVertex
@@ -204,6 +207,33 @@ CScreenSourceItem* CRenderItemManager::CreateScreenSource ( uint uiSizeX, uint u
 
 ////////////////////////////////////////////////////////////////
 //
+// CRenderItemManager::CreateScreenSource
+//
+//
+//
+////////////////////////////////////////////////////////////////
+CWebBrowserItem* CRenderItemManager::CreateWebBrowser(uint uiSizeX, uint uiSizeY)
+{
+    if (!CanCreateRenderItem(CWebBrowserItem::GetClassId()))
+        return NULL;
+
+    CWebBrowserItem* pWebBrowserItem = new CWebBrowserItem();
+    pWebBrowserItem->PostConstruct(this, uiSizeX, uiSizeY);
+
+    if (!pWebBrowserItem->IsValid())
+    {
+        SAFE_RELEASE(pWebBrowserItem);
+        return NULL;
+    }
+
+    UpdateMemoryUsage();
+
+    return pWebBrowserItem;
+}
+
+
+////////////////////////////////////////////////////////////////
+//
 // CRenderItemManager::CreateShader
 //
 // Create a D3DX effect from .fx file
@@ -385,8 +415,7 @@ void CRenderItemManager::UpdateBackBufferCopy ( void )
 //
 // CRenderItemManager::UpdateScreenSource
 //
-// Copy from back buffer store to screen source
-// TODO - Optimize the case where the screen source is the same size as the back buffer copy (i.e. Use back buffer copy resources instead)
+// Copy Awesomium rendered results to our surface
 //
 ////////////////////////////////////////////////////////////////
 void CRenderItemManager::UpdateScreenSource ( CScreenSourceItem* pScreenSourceItem, bool bResampleNow )
@@ -423,6 +452,63 @@ void CRenderItemManager::UpdateScreenSource ( CScreenSourceItem* pScreenSourceIt
         D3DTEXTUREFILTERTYPE FilterType = D3DTEXF_LINEAR;
         m_pDevice->StretchRect( m_pBackBufferCopy->m_pD3DRenderTargetSurface, NULL, pScreenSourceItem->m_pD3DRenderTargetSurface, NULL, FilterType );
     }
+}
+
+
+////////////////////////////////////////////////////////////////
+//
+// CRenderItemManager::UpdateWebBrowser
+//
+// Copy from back buffer store to screen source
+// TODO - Optimize the case where the screen source is the same size as the back buffer copy (i.e. Use back buffer copy resources instead)
+//
+////////////////////////////////////////////////////////////////
+void CRenderItemManager::UpdateWebBrowser(CWebBrowserItem* pWebBrowserItem)
+{
+    // Only do update if back buffer copy has changed
+    /*if (pWebBrowserItem->m_uiRevision == m_uiBackBufferCopyRevision)
+        return;
+
+    pScreenSourceItem->m_uiRevision = m_uiBackBufferCopyRevision;*/
+
+    // Tell awesomium that we'd like to update the texture
+    if (pWebBrowserItem->m_pWebView->IsLoading())
+    {
+        g_pCore->GetAwesomium()->Update();
+        return;
+    }
+
+    // Update Awesomium
+    g_pCore->GetAwesomium()->Update();
+
+    // Get BitmapSurface and check if it is available (it's not available if the website is blocked for example)
+    Awesomium::BitmapSurface* pAwSurface = static_cast<Awesomium::BitmapSurface*>(pWebBrowserItem->m_pWebView->surface());
+    if (!pAwSurface)
+        return;
+
+    // Update our DX surface
+    D3DLOCKED_RECT LockedRect;
+    D3DSURFACE_DESC SurfaceDesc;
+    IDirect3DSurface9* pDXSurface; // = pWebBrowserItem->m_pD3DRenderTargetSurface;
+    ((IDirect3DTexture9*)pWebBrowserItem->m_pD3DTexture)->GetSurfaceLevel(0, &pDXSurface);
+
+    // First, lock the surface and request some information
+    pDXSurface->GetDesc(&SurfaceDesc);
+    pDXSurface->LockRect(&LockedRect, NULL, 0);
+
+    // Copy Awesomium buffer to our DX surface
+    pAwSurface->CopyTo(reinterpret_cast<unsigned char*>(LockedRect.pBits), SurfaceDesc.Width * 4, 4, false, false);
+
+    /*for (int y = 0; y < SurfaceDesc.Height; ++y)
+    {
+        for (int x = 0; x < SurfaceDesc.Width; ++x)
+        {
+            
+        }
+    }*/
+
+    // Finally, unlock the surface
+    pDXSurface->UnlockRect();
 }
 
 

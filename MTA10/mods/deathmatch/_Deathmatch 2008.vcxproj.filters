@@ -572,6 +572,9 @@
     <ClCompile Include="..\shared_logic\lua\CLuaFunctionDefs.BodyClothes.cpp">
       <Filter>Source Files\shared_logic\lua</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared_logic\lua\CLuaFunctionDefs.Browser.cpp">
+      <Filter>Source Files\shared_logic\lua</Filter>
+    </ClCompile>
     <ClCompile Include="..\shared_logic\lua\CLuaFunctionDefs.Camera.cpp">
       <Filter>Source Files\shared_logic\lua</Filter>
     </ClCompile>
@@ -801,6 +804,9 @@
       <Filter>Source Files\shared_logic</Filter>
     </ClCompile>
     <ClCompile Include="..\shared_logic\CClientEffectManager.cpp">
+      <Filter>Source Files\shared_logic</Filter>
+    </ClCompile>
+    <ClCompile Include="CClientWebBrowser.cpp">
       <Filter>Source Files\shared_logic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1499,6 +1505,9 @@
       <Filter>Header Files\shared_logic</Filter>
     </ClInclude>
     <ClInclude Include="..\shared_logic\CClientEffectManager.h">
+      <Filter>Header Files\shared_logic</Filter>
+    </ClInclude>
+    <ClInclude Include="CClientWebBrowser.h">
       <Filter>Header Files\shared_logic</Filter>
     </ClInclude>
   </ItemGroup>

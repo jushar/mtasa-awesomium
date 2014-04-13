@@ -181,6 +181,9 @@ CClientBase* CModManager::Load ( const char* szName, const char* szArguments )
 
     CMessageLoopHook::GetSingleton ().SetRefreshMsgQueueEnabled( true );
 
+    // Initialise Awesomium (the web browser)
+    g_pCore->InitAwesomium();
+
     // Return the interface
     return m_pClientBase;
 }

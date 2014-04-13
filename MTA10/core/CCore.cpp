@@ -152,6 +152,8 @@ CCore::CCore ( void )
 
     m_pMouseControl = new CMouseControl();
 
+    m_pAwesomium = NULL;
+
     // Create our hook objects.
     //m_pFileSystemHook           = new CFileSystemHook ( );
     m_pDirect3DHookManager      = new CDirect3DHookManager ( );
@@ -244,6 +246,9 @@ CCore::~CCore ( void )
 
     // Delete last so calls to GetHookedWindowHandle do not crash
     delete m_pMessageLoopHook;
+
+    // Delete Awesomium
+    delete m_pAwesomium;
 }
 
 
@@ -1012,6 +1017,15 @@ void CCore::DestroyGUI ( )
     m_GUIModule.UnloadModule ();
 }
 
+void CCore::InitAwesomium()
+{
+    if (m_pAwesomium)
+        return;
+
+    // Initialise Awesomium (the web browser)
+    m_pAwesomium = new CAwesomium;
+}
+
 
 void CCore::CreateNetwork ( )
 {
@@ -1355,6 +1369,9 @@ void CCore::OnModUnload ( )
 
     // Reset client script frame rate limit
     m_uiClientScriptFrameRateLimit = 0;
+
+    // Clean Awesomium up
+    m_pAwesomium->ClearWhitelist();
 }
 
 

@@ -44,3 +44,5 @@ public:
     // CClientScreenSource methods
     CScreenSourceItem*      GetScreenSourceItem          ( void )                       { return (CScreenSourceItem*)m_pRenderItem; }
 };
+
+// CClientWebBrowser: --> Separate class

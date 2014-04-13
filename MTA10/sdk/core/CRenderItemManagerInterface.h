@@ -9,6 +9,7 @@
 *  Multi Theft Auto is available from http://www.multitheftauto.com/
 *
 *****************************************************************************/
+#pragma once
 
 #include <CVector.h>
 
@@ -28,6 +29,7 @@ class CShaderItem;
 class CShaderInstance;
 class CRenderTargetItem;
 class CScreenSourceItem;
+class CWebBrowserItem;
 class CRenderItemManager;
 class CD3DDUMMY;
 class CEffectCloner;
@@ -36,6 +38,10 @@ class CClientEntityBase;
 struct SShaderItemLayers;
 typedef CShaderItem CSHADERDUMMY;
 enum eAspectRatio;
+namespace Awesomium
+{
+    class WebView;
+}
 
 #define RDEFAULT            ((uint) -1)
 
@@ -138,12 +144,14 @@ public:
     virtual CShaderItem*        CreateShader                        ( const SString& strFullFilePath, const SString& strRootPath, SString& strOutStatus, float fPriority, float fMaxDistance, bool bLayered, bool bDebug, int iTypeMask ) = 0;
     virtual CRenderTargetItem*  CreateRenderTarget                  ( uint uiSizeX, uint uiSizeY, bool bWithAlphaChannel, bool bForce = false ) = 0;
     virtual CScreenSourceItem*  CreateScreenSource                  ( uint uiSizeX, uint uiSizeY ) = 0;
+    virtual CWebBrowserItem*    CreateWebBrowser                    ( uint uiSizeX, uint uiSizeY ) = 0;
     virtual bool                SetRenderTarget                     ( CRenderTargetItem* pItem, bool bClear ) = 0;
     virtual void                EnableSetRenderTargetOldVer         ( bool bEnable ) = 0;
     virtual bool                IsSetRenderTargetEnabledOldVer      ( void ) = 0;
     virtual bool                RestoreDefaultRenderTarget          ( void ) = 0;
     virtual void                UpdateBackBufferCopy                ( void ) = 0;
     virtual void                UpdateScreenSource                  ( CScreenSourceItem* pScreenSourceItem, bool bResampleNow ) = 0;
+    virtual void                UpdateWebBrowser                    ( CWebBrowserItem* pWebBrowserItem ) = 0;
     virtual SShaderItemLayers*  GetAppliedShaderForD3DData          ( CD3DDUMMY* pD3DData ) = 0;
     virtual bool                ApplyShaderItemToWorldTexture       ( CShaderItem* pShaderItem, const SString& strTextureNameMatch, CClientEntityBase* pClientEntity, bool bAppendLayers ) = 0;
     virtual bool                RemoveShaderItemFromWorldTexture    ( CShaderItem* pShaderItem, const SString& strTextureNameMatch, CClientEntityBase* pClientEntity ) = 0;
@@ -217,6 +225,7 @@ enum eRenderItemClassTypes
     CLASS_CFileTextureItem,
     CLASS_CRenderTargetItem,
     CLASS_CScreenSourceItem,
+    CLASS_CWebBrowserItem
 };
 
 
@@ -501,4 +510,26 @@ class CScreenSourceItem : public CTextureItem
 
     IDirect3DSurface9*  m_pD3DRenderTargetSurface;
     uint                m_uiRevision;
+};
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+//
+// CWebBrowserItem - Awesomium texture
+//
+class CWebBrowserItem : public CTextureItem
+{
+    DECLARE_CLASS(CWebBrowserItem, CTextureItem)
+                    CWebBrowserItem(void) : ClassInit(this) {}
+    virtual void    PostConstruct(CRenderItemManager* pRenderItemManager, uint uiSizeX, uint uiSizeY);
+    virtual void    PreDestruct(void);
+    virtual bool    IsValid(void);
+    virtual void    OnLostDevice(void);
+    virtual void    OnResetDevice(void);
+    void            CreateUnderlyingData(void);
+    void            ReleaseUnderlyingData(void);
+
+    IDirect3DSurface9*  m_pD3DRenderTargetSurface;
+    Awesomium::WebView* m_pWebView; // the browser "tab"
+    //uint                m_uiRevision;
 };

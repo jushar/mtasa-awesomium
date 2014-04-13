@@ -262,6 +262,19 @@ void CClient::IdleHandler ( void )
 }
 
 
+bool CClient::WebsiteRequestResultHandler(bool bWasSuccessful)
+{
+    if (g_pClientGame)
+    {
+        // Todo: Move the following to CClientGame
+        CLuaArguments Arguments;
+        Arguments.PushBoolean(bWasSuccessful);
+        return g_pClientGame->GetRootEntity()->CallEvent("onClientWebsiteRequestResult", Arguments, false);
+    }
+    return false;
+}
+
+
 bool CClient::ProcessCommand ( const char* szCommandLine )
 {
     return false;

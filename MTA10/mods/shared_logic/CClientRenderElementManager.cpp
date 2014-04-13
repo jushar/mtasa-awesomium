@@ -221,6 +221,35 @@ CClientScreenSource* CClientRenderElementManager::CreateScreenSource ( uint uiSi
 
 ////////////////////////////////////////////////////////////////
 //
+// CClientRenderElementManager::CreateWebBrowser
+//
+//
+//
+////////////////////////////////////////////////////////////////
+CClientWebBrowser* CClientRenderElementManager::CreateWebBrowser(uint uiSizeX, uint uiSizeY)
+{
+    // Create the item
+    CWebBrowserItem* pWebBrowserItem = m_pRenderItemManager->CreateWebBrowser(uiSizeX, uiSizeY);
+
+    // Check create worked
+    if (!pWebBrowserItem)
+        return NULL;
+
+    // Create the element
+    CClientWebBrowser* pWebBrowserElement = new CClientWebBrowser(m_pClientManager, INVALID_ELEMENT_ID, pWebBrowserItem);
+
+    // Add to this manager's list
+    MapSet(m_ItemElementMap, pWebBrowserItem, pWebBrowserElement);
+
+    // Update stats
+    m_uiStatsScreenSourceCount++;
+
+    return pWebBrowserElement;
+}
+
+
+////////////////////////////////////////////////////////////////
+//
 // CClientRenderElementManager::FindAutoTexture
 //
 // Find texture by unique name. Create if not found.
