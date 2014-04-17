@@ -70,4 +70,4 @@
 #include "CMemStats.h"
 #include "CGraphStats.h"
 #include "CNickGen.h"
-#include "CAwesomium.h"
+#include "CWebBrowser.h"

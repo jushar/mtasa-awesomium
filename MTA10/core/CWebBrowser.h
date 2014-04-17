@@ -3,28 +3,29 @@
 *  PROJECT:     Multi Theft Auto v1.0
 *               (Shared logic for modifications)
 *  LICENSE:     See LICENSE in the top level directory
-*  FILE:        core/CAwesomium.h
+*  FILE:        core/CWebBrowser.h
 *  PURPOSE:     Awesomium class
 *
 *****************************************************************************/
 
-#ifndef __CAWESOMIUM_H
-#define __CAWESOMIUM_H
+#ifndef __CWEBBROWSER_H
+#define __CWEBBROWSER_H
 
-#include <core/CAwesomiumInterface.h>
+#include <core/CWebBrowserInterface.h>
 #include <Awesomium/WebCore.h>
 #include <Awesomium/WebView.h>
+#include <Awesomium/BitmapSurface.h>
 #include <Awesomium/STLHelpers.h>
 class CWebBrowserItem;
 class CWebsiteRequests;
 
 using Awesomium::WebString;
 
-class CAwesomium : public CAwesomiumInterface
+class CWebBrowser : public CWebBrowserInterface
 {
 public:
-    CAwesomium();
-    ~CAwesomium();
+    CWebBrowser();
+    ~CWebBrowser();
 
     Awesomium::WebView* CreateWebView(unsigned int uiWidth, unsigned int uiHeight);
     void Update();
@@ -32,6 +33,9 @@ public:
     bool IsLoading(CWebBrowserItem* pWebBrowserItem);
     void GetPageTitle(CWebBrowserItem* pWebBrowserItem, SString& outPageTitle);
     void GetPageURL(CWebBrowserItem* pWebBrowserItem, SString& ourURL);
+
+    void GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY);
+    void SetScrollPosition(CWebBrowserItem* pWebBrowserItem, int iScrollX, int iScrollY);
 
     void InjectMouseMove(CWebBrowserItem* pWebBrowserItem, int iPosX, int iPosY);
     void InjectMouseDown(CWebBrowserItem* pWebBrowserItem, int mouseButton);
@@ -56,7 +60,8 @@ private:
     void WebStringToSString(const WebString& webString, SString& strString);
 };
 
-class CAwesomiumResourceInterceptor : public Awesomium::ResourceInterceptor
+
+class CWebBrowserResourceInterceptor : public Awesomium::ResourceInterceptor
 {
     virtual bool OnFilterNavigation(int origin_process_id, int origin_routing_id, const Awesomium::WebString& method, const Awesomium::WebURL& url, bool is_main_frame);
     virtual Awesomium::ResourceResponse* OnRequest(Awesomium::ResourceRequest* pRequest);

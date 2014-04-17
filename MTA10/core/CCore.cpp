@@ -152,7 +152,7 @@ CCore::CCore ( void )
 
     m_pMouseControl = new CMouseControl();
 
-    m_pAwesomium = NULL;
+    m_pWebBrowser = NULL;
 
     // Create our hook objects.
     //m_pFileSystemHook           = new CFileSystemHook ( );
@@ -248,7 +248,7 @@ CCore::~CCore ( void )
     delete m_pMessageLoopHook;
 
     // Delete Awesomium
-    delete m_pAwesomium;
+    delete m_pWebBrowser;
 }
 
 
@@ -1019,11 +1019,11 @@ void CCore::DestroyGUI ( )
 
 void CCore::InitAwesomium()
 {
-    if (m_pAwesomium)
+    if (m_pWebBrowser)
         return;
 
     // Initialise Awesomium (the web browser)
-    m_pAwesomium = new CAwesomium;
+    m_pWebBrowser = new CWebBrowser;
 }
 
 
@@ -1371,7 +1371,7 @@ void CCore::OnModUnload ( )
     m_uiClientScriptFrameRateLimit = 0;
 
     // Clean Awesomium up
-    m_pAwesomium->ClearWhitelist();
+    m_pWebBrowser->ClearWhitelist();
 }
 
 

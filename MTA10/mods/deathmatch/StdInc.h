@@ -48,7 +48,7 @@
 #include "net/SyncStructures.h"
 #include "CIdArray.h"
 #include "pcrecpp.h"
-#include <core/CAwesomiumInterface.h>
+#include <core/CWebBrowserInterface.h>
 
 // Shared logic includes
 #include <Utils.h>

@@ -22,7 +22,7 @@
 #include "CModManagerInterface.h"
 #include "CKeyBindsInterface.h"
 #include "CCVarsInterface.h"
-#include "CAwesomiumInterface.h"
+#include "CWebBrowserInterface.h"
 #include "xml/CXML.h"
 #include <gui/CGUI.h>
 
@@ -81,7 +81,7 @@ public:
     virtual CCVarsInterface*            GetCVars                        ( void ) = 0;
     virtual CCommunityInterface*        GetCommunity                    ( void ) = 0;
     virtual CLocalizationInterface*     GetLocalization                 ( void ) = 0;
-    virtual CAwesomiumInterface*        GetAwesomium                    ( void ) = 0;
+    virtual CWebBrowserInterface*       GetWebBrowser                   ( void ) = 0;
     
 
     // Temporary functions for r1

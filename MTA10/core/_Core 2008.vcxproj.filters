@@ -377,10 +377,10 @@
     <ClCompile Include="..\..\vendor\tinygettext\unix_file_system.cpp">
       <Filter>Source Files\utils\tinygettext</Filter>
     </ClCompile>
-    <ClCompile Include="CAwesomium.cpp">
+    <ClCompile Include="CWebsiteRequests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CWebsiteRequests.cpp">
+    <ClCompile Include="CWebBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1279,14 +1279,14 @@
     <ClInclude Include="..\..\vendor\tinygettext\unix_file_system.hpp">
       <Filter>Header Files\utils\tinygettext</Filter>
     </ClInclude>
-    <ClInclude Include="CAwesomium.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sdk\core\CAwesomiumInterface.h">
-      <Filter>Header Files\sdk\core</Filter>
-    </ClInclude>
     <ClInclude Include="CWebsiteRequests.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWebBrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\core\CWebBrowserInterface.h">
+      <Filter>Header Files\sdk\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

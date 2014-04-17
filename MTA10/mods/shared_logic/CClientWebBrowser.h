@@ -25,6 +25,9 @@ public:
     void GetTitle(SString& outPageTitle);
     void GetURL(SString& outURL);
 
+    void GetScrollPosition(int& iScrollX, int& iScrollY);
+    void SetScrollPosition(int iScrollX, int iScrollY);
+
     void InjectMouseMove(int iPosX, int iPosY);
     void InjectMouseDown(int mouseButton);
     void InjectMouseUp(int mouseButton);

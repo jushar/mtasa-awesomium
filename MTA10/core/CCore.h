@@ -49,7 +49,7 @@ class CCore;
 #include <xml/CXML.h>
 #include <ijsify.h>
 #include "CXfireQuery.h"
-#include "CAwesomium.h"
+#include "CWebBrowser.h"
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -108,7 +108,7 @@ public:
     CLocalGUI*              GetLocalGUI                     ( void );
     CCommunityInterface*    GetCommunity                    ( void )                { return &m_Community; };
     CLocalizationInterface* GetLocalization                 ( void )                { return g_pLocalization; };
-    CAwesomiumInterface*    GetAwesomium                    ( void )                { return m_pAwesomium; };
+    CWebBrowserInterface*   GetWebBrowser                   ( void )                { return m_pWebBrowser; };
 
     void                    SaveConfig                      ( void );
 
@@ -285,7 +285,7 @@ private:
     CXMLFile*                   m_pConfigFile;
     CClientVariables            m_ClientVariables;
     CCommunity                  m_Community;
-    CAwesomium*                 m_pAwesomium;
+    CWebBrowser*                m_pWebBrowser;
 
     // Hook interfaces.
     CMessageLoopHook *          m_pMessageLoopHook;

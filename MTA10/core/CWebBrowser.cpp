@@ -3,22 +3,22 @@
 *  PROJECT:     Multi Theft Auto v1.0
 *               (Shared logic for modifications)
 *  LICENSE:     See LICENSE in the top level directory
-*  FILE:        core/CAwesomium.cpp
+*  FILE:        core/CWebBrowser.cpp
 *  PURPOSE:     Awesomium class
 *
 *****************************************************************************/
 
 #include "StdInc.h"
-#include "CAwesomium.h"
+#include "CWebBrowser.h"
 #include "CWebsiteRequests.h"
 
-CAwesomium::CAwesomium()
+CWebBrowser::CWebBrowser()
 {
     m_pWebCore = Awesomium::WebCore::Initialize(Awesomium::WebConfig());
     m_pRequestsGUI = NULL;
 }
 
-CAwesomium::~CAwesomium()
+CWebBrowser::~CWebBrowser()
 {
     m_pWebCore->Shutdown();
 
@@ -26,34 +26,34 @@ CAwesomium::~CAwesomium()
         delete m_pRequestsGUI;
 }
 
-Awesomium::WebView* CAwesomium::CreateWebView(unsigned int uiWidth, unsigned int uiHeight)
+Awesomium::WebView* CWebBrowser::CreateWebView(unsigned int uiWidth, unsigned int uiHeight)
 {
     // Create a new offscreen webview
     Awesomium::WebView* pWebView = m_pWebCore->CreateWebView(uiWidth, uiHeight, 0, Awesomium::WebViewType::kWebViewType_Offscreen);
     return pWebView;
 }
 
-void CAwesomium::Update()
+void CWebBrowser::Update()
 {
     m_pWebCore->Update();
 }
 
-bool CAwesomium::IsLoading(CWebBrowserItem* pWebBrowserItem)
+bool CWebBrowser::IsLoading(CWebBrowserItem* pWebBrowserItem)
 {
     return pWebBrowserItem->m_pWebView->IsLoading();
 }
 
-void CAwesomium::GetPageTitle(CWebBrowserItem* pWebBrowserItem, SString& outPageTitle)
+void CWebBrowser::GetPageTitle(CWebBrowserItem* pWebBrowserItem, SString& outPageTitle)
 {
     WebStringToSString(pWebBrowserItem->m_pWebView->title(), outPageTitle);
 }
 
-void CAwesomium::GetPageURL(CWebBrowserItem* pWebBrowserItem, SString& outURL)
+void CWebBrowser::GetPageURL(CWebBrowserItem* pWebBrowserItem, SString& outURL)
 {
     WebStringToSString(pWebBrowserItem->m_pWebView->url().spec(), outURL);
 }
 
-bool CAwesomium::LoadURL(CWebBrowserItem* pWebBrowserItem, const SString& strURL)
+bool CWebBrowser::LoadURL(CWebBrowserItem* pWebBrowserItem, const SString& strURL)
 {
     Awesomium::WebURL webURL(Awesomium::WSLit(strURL.c_str()));
 
@@ -65,22 +65,32 @@ bool CAwesomium::LoadURL(CWebBrowserItem* pWebBrowserItem, const SString& strURL
     return true;
 }
 
-void CAwesomium::InjectMouseMove(CWebBrowserItem* pWebBrowserItem, int iPosX, int iPosY)
+void CWebBrowser::GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY)
+{
+
+}
+
+void CWebBrowser::SetScrollPosition(CWebBrowserItem* pWebBrowserItem, int iScrollX, int iScrollY)
+{
+    static_cast<Awesomium::BitmapSurface*>(pWebBrowserItem->m_pWebView->surface())->Scroll(iScrollX, iScrollY, Awesomium::Rect(0, 0, pWebBrowserItem->m_uiSizeX, pWebBrowserItem->m_uiSizeY));
+}
+
+void CWebBrowser::InjectMouseMove(CWebBrowserItem* pWebBrowserItem, int iPosX, int iPosY)
 {
     pWebBrowserItem->m_pWebView->InjectMouseMove(iPosX, iPosY);
 }
 
-void CAwesomium::InjectMouseDown(CWebBrowserItem* pWebBrowserItem, int mouseButton)
+void CWebBrowser::InjectMouseDown(CWebBrowserItem* pWebBrowserItem, int mouseButton)
 {
     pWebBrowserItem->m_pWebView->InjectMouseDown(static_cast<Awesomium::MouseButton>(mouseButton));
 }
 
-void CAwesomium::InjectMouseUp(CWebBrowserItem* pWebBrowserItem, int mouseButton)
+void CWebBrowser::InjectMouseUp(CWebBrowserItem* pWebBrowserItem, int mouseButton)
 {
     pWebBrowserItem->m_pWebView->InjectMouseUp(static_cast<Awesomium::MouseButton>(mouseButton));
 }
 
-void CAwesomium::InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SString& strKey, bool bKeyDown, bool bCharacter)
+void CWebBrowser::InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SString& strKey, bool bKeyDown, bool bCharacter)
 {
     // Hack fix
     SString key = strKey;
@@ -120,7 +130,7 @@ void CAwesomium::InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SSt
     //delete[] buffer;
 }
 
-bool CAwesomium::IsURLAllowed(const WebString& strURL)
+bool CWebBrowser::IsURLAllowed(const WebString& strURL)
 {
     // Todo: Implement wildcards
     for (std::vector<WebString>::iterator iter = m_Whitelist.begin(); iter != m_Whitelist.end(); ++iter)
@@ -131,18 +141,18 @@ bool CAwesomium::IsURLAllowed(const WebString& strURL)
     return false;
 }
 
-void CAwesomium::ClearWhitelist()
+void CWebBrowser::ClearWhitelist()
 {
     m_Whitelist.clear();
     m_PendingRequests.clear();
 }
 
-void CAwesomium::AddAllowedPage(const SString& strURL)
+void CWebBrowser::AddAllowedPage(const SString& strURL)
 {
     m_Whitelist.push_back(Awesomium::WSLit(strURL.c_str()));
 }
 
-void CAwesomium::RequestPages(const std::vector<SString>& pages)
+void CWebBrowser::RequestPages(const std::vector<SString>& pages)
 {
     // Add to pending pages queue
     bool bNewItem = false;
@@ -167,7 +177,7 @@ void CAwesomium::RequestPages(const std::vector<SString>& pages)
     }
 }
 
-void CAwesomium::AllowPendingPages()
+void CWebBrowser::AllowPendingPages()
 {
     for (std::vector<SString>::iterator iter = m_PendingRequests.begin(); iter != m_PendingRequests.end(); ++iter)
     {
@@ -179,7 +189,7 @@ void CAwesomium::AllowPendingPages()
     CModManager::GetSingleton().GetCurrentMod()->WebsiteRequestResultHandler(true);
 }
 
-void CAwesomium::DenyPendingPages()
+void CWebBrowser::DenyPendingPages()
 {
     m_PendingRequests.clear();
     
@@ -187,7 +197,7 @@ void CAwesomium::DenyPendingPages()
     CModManager::GetSingleton().GetCurrentMod()->WebsiteRequestResultHandler(false);
 }
 
-void CAwesomium::WebStringToSString(const WebString& webString, SString& strString)
+void CWebBrowser::WebStringToSString(const WebString& webString, SString& strString)
 {
     std::stringstream sstream;
     sstream << webString;
@@ -196,14 +206,14 @@ void CAwesomium::WebStringToSString(const WebString& webString, SString& strStri
 
 ////////////////////////////////////////////////////////////////////
 //                                                                //
-//          CAwesomiumResourceInterceptor section                 //
+//          CWebBrowserResourceInterceptor section                 //
 //  This methods get called when the player requests resources    //
 // http://www.awesomium.com/docs/1_7_2/cpp_api/class_awesomium_1_1_resource_interceptor.html //
 //                                                                //
 ////////////////////////////////////////////////////////////////////
-bool CAwesomiumResourceInterceptor::OnFilterNavigation(int origin_process_id, int origin_routing_id, const Awesomium::WebString& method, const Awesomium::WebURL& url, bool is_main_frame)
+bool CWebBrowserResourceInterceptor::OnFilterNavigation(int origin_process_id, int origin_routing_id, const Awesomium::WebString& method, const Awesomium::WebURL& url, bool is_main_frame)
 {
-    if (!g_pCore->GetAwesomium()->IsURLAllowed(url.host()))
+    if (!g_pCore->GetWebBrowser()->IsURLAllowed(url.host()))
         // Block the action
         return true;
 
@@ -211,9 +221,9 @@ bool CAwesomiumResourceInterceptor::OnFilterNavigation(int origin_process_id, in
     return false;
 }
 
-Awesomium::ResourceResponse* CAwesomiumResourceInterceptor::OnRequest(Awesomium::ResourceRequest* pRequest)
+Awesomium::ResourceResponse* CWebBrowserResourceInterceptor::OnRequest(Awesomium::ResourceRequest* pRequest)
 {
-    if (!g_pCore->GetAwesomium()->IsURLAllowed(pRequest->url().host()))
+    if (!g_pCore->GetWebBrowser()->IsURLAllowed(pRequest->url().host()))
         // Block the action
         pRequest->Cancel();
 

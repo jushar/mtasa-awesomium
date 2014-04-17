@@ -74,7 +74,7 @@ int CLuaFunctionDefs::RequestBrowserPages(lua_State* luaVM)
 
     if (!argStream.HasErrors())
     {
-        g_pCore->GetAwesomium()->RequestPages(pages);
+        g_pCore->GetWebBrowser()->RequestPages(pages);
         // Todo: Add a callback or event to check if the pagerequest dialog was successfully done
         lua_pushboolean(luaVM, true);
         return 1;
@@ -298,6 +298,50 @@ int CLuaFunctionDefs::GetBrowserURL(lua_State* luaVM)
         pWebBrowser->GetURL(strURL);
 
         lua_pushstring(luaVM, strURL);
+        return 1;
+    }
+    else
+        m_pScriptDebugging->LogCustom(luaVM, argStream.GetFullErrorMessage());
+
+    lua_pushboolean(luaVM, false);
+    return 1;
+}
+
+int CLuaFunctionDefs::SetBrowserScrollPosition(lua_State* luaVM)
+{
+//  bool setBrowserScrollPosition ( browser webBrowser, int scrollX, int scrollY )
+    CClientWebBrowser* pWebBrowser; int iScrollX; int iScrollY;
+
+    CScriptArgReader argStream(luaVM);
+    argStream.ReadUserData(pWebBrowser);
+    argStream.ReadNumber(iScrollX);
+    argStream.ReadNumber(iScrollY);
+
+    if (!argStream.HasErrors())
+    {
+        pWebBrowser->SetScrollPosition(iScrollX, iScrollY);
+        lua_pushboolean(luaVM, true);
+        return 1;
+    }
+    else
+        m_pScriptDebugging->LogCustom(luaVM, argStream.GetFullErrorMessage());
+
+    lua_pushboolean(luaVM, false);
+    return 1;
+}
+
+int CLuaFunctionDefs::GetBrowserScrollPosition(lua_State* luaVM)
+{
+//  int, int getBrowserScrollPosition ( browser webBrowser )
+    CClientWebBrowser* pWebBrowser;
+
+    CScriptArgReader argStream(luaVM);
+    argStream.ReadUserData(pWebBrowser);
+
+    if (!argStream.HasErrors())
+    {
+        // Todo
+
         return 1;
     }
     else

@@ -1181,6 +1181,8 @@ void CLuaManager::LoadCFunctions ( void )
     CLuaCFunctions::AddFunction("injectBrowserCharacter", CLuaFunctionDefs::InjectBrowserCharacter);
     CLuaCFunctions::AddFunction("getBrowserTitle", CLuaFunctionDefs::GetBrowserTitle);
     CLuaCFunctions::AddFunction("getBrowserURL", CLuaFunctionDefs::GetBrowserURL);
+    CLuaCFunctions::AddFunction("setBrowserScrollPosition", CLuaFunctionDefs::SetBrowserScrollPosition);
+    CLuaCFunctions::AddFunction("getBrowserScrollPosition", CLuaFunctionDefs::GetBrowserScrollPosition);
 
     // Luadef definitions
     CLuaFileDefs::LoadFunctions ();

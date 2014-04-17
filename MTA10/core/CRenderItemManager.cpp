@@ -473,12 +473,12 @@ void CRenderItemManager::UpdateWebBrowser(CWebBrowserItem* pWebBrowserItem)
     // Tell awesomium that we'd like to update the texture
     if (pWebBrowserItem->m_pWebView->IsLoading())
     {
-        g_pCore->GetAwesomium()->Update();
+        g_pCore->GetWebBrowser()->Update();
         return;
     }
 
     // Update Awesomium
-    g_pCore->GetAwesomium()->Update();
+    g_pCore->GetWebBrowser()->Update();
 
     // Get BitmapSurface and check if it is available (it's not available if the website is blocked for example)
     Awesomium::BitmapSurface* pAwSurface = static_cast<Awesomium::BitmapSurface*>(pWebBrowserItem->m_pWebView->surface());

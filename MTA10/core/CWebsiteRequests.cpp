@@ -80,14 +80,14 @@ void CWebsiteRequests::Clear()
 
 bool CWebsiteRequests::OnAllowButtonClick(CGUIElement* pElement)
 {
-    g_pCore->GetAwesomium()->AllowPendingPages();
+    g_pCore->GetWebBrowser()->AllowPendingPages();
     Hide();
     return true;
 }
 
 bool CWebsiteRequests::OnDenyButtonClick(CGUIElement* pElement)
 {
-    g_pCore->GetAwesomium()->DenyPendingPages();
+    g_pCore->GetWebBrowser()->DenyPendingPages();
     Hide();
     return true;
 }

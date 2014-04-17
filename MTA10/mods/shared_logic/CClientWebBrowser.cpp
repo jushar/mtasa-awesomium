@@ -21,40 +21,50 @@ CClientWebBrowser::~CClientWebBrowser()
 
 bool CClientWebBrowser::IsLoading()
 {
-    return g_pCore->GetAwesomium()->IsLoading(GetWebBrowserItem());
+    return g_pCore->GetWebBrowser()->IsLoading(GetWebBrowserItem());
 }
 
 bool CClientWebBrowser::LoadURL(const SString& strURL)
 {
-    return g_pCore->GetAwesomium()->LoadURL(GetWebBrowserItem(), strURL);
+    return g_pCore->GetWebBrowser()->LoadURL(GetWebBrowserItem(), strURL);
 }
 
 void CClientWebBrowser::GetTitle(SString& outPageTitle)
 {
-    g_pCore->GetAwesomium()->GetPageTitle(GetWebBrowserItem(), outPageTitle);
+    g_pCore->GetWebBrowser()->GetPageTitle(GetWebBrowserItem(), outPageTitle);
 }
 
 void CClientWebBrowser::GetURL(SString& outURL)
 {
-    g_pCore->GetAwesomium()->GetPageURL(GetWebBrowserItem(), outURL);
+    g_pCore->GetWebBrowser()->GetPageURL(GetWebBrowserItem(), outURL);
+}
+
+void CClientWebBrowser::GetScrollPosition(int& iScrollX, int& iScrollY)
+{
+    g_pCore->GetWebBrowser()->GetScrollPosition(GetWebBrowserItem(), iScrollX, iScrollY);
+}
+
+void CClientWebBrowser::SetScrollPosition(int iScrollX, int iScrollY)
+{
+    g_pCore->GetWebBrowser()->SetScrollPosition(GetWebBrowserItem(), iScrollX, iScrollY);
 }
 
 void CClientWebBrowser::InjectMouseMove(int iPosX, int iPosY)
 {
-    g_pCore->GetAwesomium()->InjectMouseMove(GetWebBrowserItem(), iPosX, iPosY);
+    g_pCore->GetWebBrowser()->InjectMouseMove(GetWebBrowserItem(), iPosX, iPosY);
 }
 
 void CClientWebBrowser::InjectMouseDown(int mouseButton)
 {
-    g_pCore->GetAwesomium()->InjectMouseDown(GetWebBrowserItem(), mouseButton);
+    g_pCore->GetWebBrowser()->InjectMouseDown(GetWebBrowserItem(), mouseButton);
 }
 
 void CClientWebBrowser::InjectMouseUp(int mouseButton)
 {
-    g_pCore->GetAwesomium()->InjectMouseUp(GetWebBrowserItem(), mouseButton);
+    g_pCore->GetWebBrowser()->InjectMouseUp(GetWebBrowserItem(), mouseButton);
 }
 
 void CClientWebBrowser::InjectKeyboardEvent(const SString& strKey, bool bKeyDown, bool bCharacter)
 {
-    g_pCore->GetAwesomium()->InjectKeyboardEvent(GetWebBrowserItem(), strKey, bKeyDown, bCharacter);
+    g_pCore->GetWebBrowser()->InjectKeyboardEvent(GetWebBrowserItem(), strKey, bKeyDown, bCharacter);
 }

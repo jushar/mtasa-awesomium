@@ -218,7 +218,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAdditionalVertexStreamManager.cpp" />
-    <ClCompile Include="CAwesomium.cpp" />
+    <ClCompile Include="CWebBrowser.cpp" />
     <ClCompile Include="CChat.cpp" />
     <ClCompile Include="CClientVariables.cpp" />
     <ClCompile Include="CCommandFuncs.cpp" />
@@ -399,7 +399,7 @@
   <ItemGroup>
     <ClInclude Include="CAdditionalVertexStreamManager.h" />
     <ClInclude Include="CAspectRatioConverter.h" />
-    <ClInclude Include="CAwesomium.h" />
+    <ClInclude Include="CWebBrowser.h" />
     <ClInclude Include="CChat.h" />
     <ClInclude Include="CClientVariables.h" />
     <ClInclude Include="CCommandFuncs.h" />
@@ -494,7 +494,7 @@
     <ClInclude Include="tracking\CTCPServerSocketImpl.h" />
     <ClInclude Include="tracking\CTCPSocket.h" />
     <ClInclude Include="CExceptionInformation_Impl.h" />
-    <ClInclude Include="..\sdk\core\CAwesomiumInterface.h" />
+    <ClInclude Include="..\sdk\core\CWebBrowserInterface.h" />
     <ClInclude Include="..\sdk\core\CClientBase.h" />
     <ClInclude Include="..\sdk\core\CClientEntityBase.h" />
     <ClInclude Include="..\sdk\core\CCommandsInterface.h" />
