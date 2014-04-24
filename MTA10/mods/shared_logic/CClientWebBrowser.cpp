@@ -11,7 +11,8 @@
 #include "StdInc.h"
 #include "CClientWebBrowser.h"
 
-CClientWebBrowser::CClientWebBrowser(CClientManager* pManager, ElementID ID, CWebBrowserItem* pWebBrowserItem) : ClassInit(this), CClientTexture(pManager, ID, pWebBrowserItem)
+CClientWebBrowser::CClientWebBrowser(CClientManager* pManager, ElementID ID, CWebBrowserItem* pWebBrowserItem, CWebViewInterface* pWebView)
+    : ClassInit(this), CClientTexture(pManager, ID, pWebBrowserItem), m_pWebView(pWebView)
 {
 }
 
@@ -21,22 +22,22 @@ CClientWebBrowser::~CClientWebBrowser()
 
 bool CClientWebBrowser::IsLoading()
 {
-    return g_pCore->GetWebBrowser()->IsLoading(GetWebBrowserItem());
+    return m_pWebView->IsLoading();
 }
 
 bool CClientWebBrowser::LoadURL(const SString& strURL)
 {
-    return g_pCore->GetWebBrowser()->LoadURL(GetWebBrowserItem(), strURL);
+    return m_pWebView->LoadURL(strURL);
 }
 
 void CClientWebBrowser::GetTitle(SString& outPageTitle)
 {
-    g_pCore->GetWebBrowser()->GetPageTitle(GetWebBrowserItem(), outPageTitle);
+    outPageTitle = "todo";
 }
 
 void CClientWebBrowser::GetURL(SString& outURL)
 {
-    g_pCore->GetWebBrowser()->GetPageURL(GetWebBrowserItem(), outURL);
+    outURL = "todo";
 }
 
 void CClientWebBrowser::GetScrollPosition(int& iScrollX, int& iScrollY)

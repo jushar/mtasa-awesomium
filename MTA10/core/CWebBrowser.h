@@ -11,29 +11,27 @@
 #ifndef __CWEBBROWSER_H
 #define __CWEBBROWSER_H
 
+#undef GetNextSibling
 #include <core/CWebBrowserInterface.h>
-#include <Awesomium/WebCore.h>
-#include <Awesomium/WebView.h>
-#include <Awesomium/BitmapSurface.h>
-#include <Awesomium/STLHelpers.h>
+#include <cef/include/cef_app.h>
+#include <cef/include/cef_browser.h>
+#include <cef/include/cef_client.h>
+#include <cef/include/cef_render_handler.h>
+#include <cef/include/cef_command_line.h>
+#include <cef/include/cef_task.h>
+
 class CWebBrowserItem;
 class CWebsiteRequests;
 
-using Awesomium::WebString;
-
-class CWebBrowser : public CWebBrowserInterface
+class CWebBrowser : public CWebBrowserInterface /*, public CefApp*/
 {
 public:
     CWebBrowser();
     ~CWebBrowser();
+    bool Initialise();
 
-    Awesomium::WebView* CreateWebView(unsigned int uiWidth, unsigned int uiHeight);
-    void Update();
+    CWebViewInterface* CreateWebView(unsigned int uiWidth, unsigned int uiHeight, IDirect3DSurface9* pD3DSurface);
     
-    bool IsLoading(CWebBrowserItem* pWebBrowserItem);
-    void GetPageTitle(CWebBrowserItem* pWebBrowserItem, SString& outPageTitle);
-    void GetPageURL(CWebBrowserItem* pWebBrowserItem, SString& ourURL);
-
     void GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY);
     void SetScrollPosition(CWebBrowserItem* pWebBrowserItem, int iScrollX, int iScrollY);
 
@@ -42,8 +40,7 @@ public:
     void InjectMouseUp(CWebBrowserItem* pWebBrowserItem, int mouseButton);
     void InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SString& strKey, bool bKeyDown = true, bool bCharacter = false);
 
-    bool LoadURL(CWebBrowserItem* pWebBrowserItem, const SString& strURL);
-    bool IsURLAllowed(const WebString& strURL);
+    bool IsURLAllowed(const SString& strURL);
     void ClearWhitelist();
     void AddAllowedPage(const SString& strURL);
     void RequestPages(const std::vector<SString>& pages);
@@ -51,20 +48,20 @@ public:
     void DenyPendingPages();
 
 private:
-    Awesomium::WebCore* m_pWebCore;
     CWebsiteRequests* m_pRequestsGUI;
 
-    std::vector<Awesomium::WebString> m_Whitelist;
+    std::vector<SString> m_Whitelist;
     std::vector<SString> m_PendingRequests;
 
-    void WebStringToSString(const WebString& webString, SString& strString);
+    //IMPLEMENT_REFCOUNTING(CWebBrowser);
 };
 
 
-class CWebBrowserResourceInterceptor : public Awesomium::ResourceInterceptor
+/*class CWebBrowserResourceInterceptor : public Awesomium::ResourceInterceptor
 {
     virtual bool OnFilterNavigation(int origin_process_id, int origin_routing_id, const Awesomium::WebString& method, const Awesomium::WebURL& url, bool is_main_frame);
     virtual Awesomium::ResourceResponse* OnRequest(Awesomium::ResourceRequest* pRequest);
-};
+};*/
+
 
 #endif

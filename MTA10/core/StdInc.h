@@ -71,3 +71,4 @@
 #include "CGraphStats.h"
 #include "CNickGen.h"
 #include "CWebBrowser.h"
+#include "CWebView.h"

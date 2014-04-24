@@ -383,6 +383,9 @@
     <ClCompile Include="CWebBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CWebView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAdditionalVertexStreamManager.h">
@@ -1286,6 +1289,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\sdk\core\CWebBrowserInterface.h">
+      <Filter>Header Files\sdk\core</Filter>
+    </ClInclude>
+    <ClInclude Include="CWebView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\core\CWebViewInterface.h">
       <Filter>Header Files\sdk\core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,14 +11,17 @@
 #ifndef __CCLIENTWEBBROWSER_H
 #define __CCLIENTWEBBROWSER_H
 
+#include <core/CWebViewInterface.h>
+
 class CClientWebBrowser : public CClientTexture
 {
     DECLARE_CLASS(CClientWebBrowser, CClientTexture)
 public:
-    CClientWebBrowser(CClientManager* pManager, ElementID ID, CWebBrowserItem* pWebBrowserItem);
+    CClientWebBrowser(CClientManager* pManager, ElementID ID, CWebBrowserItem* pWebBrowserItem, CWebViewInterface* pWebView);
     ~CClientWebBrowser();
 
     inline CWebBrowserItem*      GetWebBrowserItem(void)                       { return (CWebBrowserItem*)m_pRenderItem; }
+    inline CWebViewInterface*    GetWebView(void) { return m_pWebView; }
 
     bool IsLoading();
     bool LoadURL(const SString& strURL);
@@ -32,6 +35,9 @@ public:
     void InjectMouseDown(int mouseButton);
     void InjectMouseUp(int mouseButton);
     void InjectKeyboardEvent(const SString& strKey, bool bKeyDown = true, bool bCharacter = false);
+
+private:
+    CWebViewInterface* m_pWebView;
 };
 
 #endif

@@ -236,13 +236,13 @@ CClientWebBrowser* CClientRenderElementManager::CreateWebBrowser(uint uiSizeX, u
         return NULL;
 
     // Create the element
-    CClientWebBrowser* pWebBrowserElement = new CClientWebBrowser(m_pClientManager, INVALID_ELEMENT_ID, pWebBrowserItem);
+    CClientWebBrowser* pWebBrowserElement = new CClientWebBrowser(m_pClientManager, INVALID_ELEMENT_ID, pWebBrowserItem, pWebBrowserItem->m_pWebView);
 
     // Add to this manager's list
     MapSet(m_ItemElementMap, pWebBrowserItem, pWebBrowserElement);
 
     // Update stats
-    m_uiStatsScreenSourceCount++;
+    m_uiStatsScreenSourceCount++; // Todo: Replace by webbrowsercount
 
     return pWebBrowserElement;
 }

@@ -4,65 +4,68 @@
 *               (Shared logic for modifications)
 *  LICENSE:     See LICENSE in the top level directory
 *  FILE:        core/CWebBrowser.cpp
-*  PURPOSE:     Awesomium class
+*  PURPOSE:     Webbrowser class
 *
 *****************************************************************************/
 
 #include "StdInc.h"
 #include "CWebBrowser.h"
+#include "CWebView.h"
 #include "CWebsiteRequests.h"
+
+// Set to 0 to disable sandbox support.
+#define CEF_ENABLE_SANDBOX 0 // Todo: Make use of the sandbox
+#if CEF_ENABLE_SANDBOX
+    #include <cef/include/cef_sandbox_win.h>
+    #pragma comment(lib, "cef_sandbox.lib")
+#endif
 
 CWebBrowser::CWebBrowser()
 {
-    m_pWebCore = Awesomium::WebCore::Initialize(Awesomium::WebConfig());
     m_pRequestsGUI = NULL;
+
+    Initialise();
 }
 
 CWebBrowser::~CWebBrowser()
 {
-    m_pWebCore->Shutdown();
+    // Shutdown CEF
+    CefShutdown();
 
     if (m_pRequestsGUI)
         delete m_pRequestsGUI;
 }
 
-Awesomium::WebView* CWebBrowser::CreateWebView(unsigned int uiWidth, unsigned int uiHeight)
+bool CWebBrowser::Initialise()
 {
-    // Create a new offscreen webview
-    Awesomium::WebView* pWebView = m_pWebCore->CreateWebView(uiWidth, uiHeight, 0, Awesomium::WebViewType::kWebViewType_Offscreen);
-    return pWebView;
-}
+    // Start rendering process
+    CefMainArgs mainArgs;
+    int exitCode = CefExecuteProcess(mainArgs, NULL, NULL);
 
-void CWebBrowser::Update()
-{
-    m_pWebCore->Update();
-}
+    void* sandboxInfo = NULL;
+#if CEF_ENABLE_SANDBOX
+    CefScopedSandboxInfo scopedSandbox;
+    sandboxInfo = scopedSandbox.sandbox_info();
+#endif
 
-bool CWebBrowser::IsLoading(CWebBrowserItem* pWebBrowserItem)
-{
-    return pWebBrowserItem->m_pWebView->IsLoading();
-}
-
-void CWebBrowser::GetPageTitle(CWebBrowserItem* pWebBrowserItem, SString& outPageTitle)
-{
-    WebStringToSString(pWebBrowserItem->m_pWebView->title(), outPageTitle);
-}
-
-void CWebBrowser::GetPageURL(CWebBrowserItem* pWebBrowserItem, SString& outURL)
-{
-    WebStringToSString(pWebBrowserItem->m_pWebView->url().spec(), outURL);
-}
-
-bool CWebBrowser::LoadURL(CWebBrowserItem* pWebBrowserItem, const SString& strURL)
-{
-    Awesomium::WebURL webURL(Awesomium::WSLit(strURL.c_str()));
-
-    // Stop here if requested URL is not on the whitelist
-    if (!IsURLAllowed(webURL.host()))
+    // Initialize CEF
+    if (exitCode >= 0)
         return false;
 
-    pWebBrowserItem->m_pWebView->LoadURL(webURL);
-    return true;
+    CefSettings settings;
+#if !CEF_ENABLE_SANDBOX
+     settings.no_sandbox = true;
+#endif
+     settings.multi_threaded_message_loop = false;
+    
+     return CefInitialize(mainArgs, settings, NULL, sandboxInfo);
+}
+
+CWebViewInterface* CWebBrowser::CreateWebView(unsigned int uiWidth, unsigned int uiHeight, IDirect3DSurface9* pD3DSurface)
+{
+    // Create our webview implementation
+    CefRefPtr<CWebView> webView = new CWebView(pD3DSurface);
+    return webView.get();
 }
 
 void CWebBrowser::GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY)
@@ -72,22 +75,22 @@ void CWebBrowser::GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScro
 
 void CWebBrowser::SetScrollPosition(CWebBrowserItem* pWebBrowserItem, int iScrollX, int iScrollY)
 {
-    static_cast<Awesomium::BitmapSurface*>(pWebBrowserItem->m_pWebView->surface())->Scroll(iScrollX, iScrollY, Awesomium::Rect(0, 0, pWebBrowserItem->m_uiSizeX, pWebBrowserItem->m_uiSizeY));
+    
 }
 
 void CWebBrowser::InjectMouseMove(CWebBrowserItem* pWebBrowserItem, int iPosX, int iPosY)
 {
-    pWebBrowserItem->m_pWebView->InjectMouseMove(iPosX, iPosY);
+    //pWebBrowserItem->m_pWebView->InjectMouseMove(iPosX, iPosY);
 }
 
 void CWebBrowser::InjectMouseDown(CWebBrowserItem* pWebBrowserItem, int mouseButton)
 {
-    pWebBrowserItem->m_pWebView->InjectMouseDown(static_cast<Awesomium::MouseButton>(mouseButton));
+    //pWebBrowserItem->m_pWebView->InjectMouseDown(static_cast<Awesomium::MouseButton>(mouseButton));
 }
 
 void CWebBrowser::InjectMouseUp(CWebBrowserItem* pWebBrowserItem, int mouseButton)
 {
-    pWebBrowserItem->m_pWebView->InjectMouseUp(static_cast<Awesomium::MouseButton>(mouseButton));
+    //pWebBrowserItem->m_pWebView->InjectMouseUp(static_cast<Awesomium::MouseButton>(mouseButton));
 }
 
 void CWebBrowser::InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SString& strKey, bool bKeyDown, bool bCharacter)
@@ -97,7 +100,7 @@ void CWebBrowser::InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SS
     if (key == " ")
         key = "space";
 
-    Awesomium::WebKeyboardEvent keyboardEvent;
+    /*Awesomium::WebKeyboardEvent keyboardEvent;
     keyboardEvent.is_system_key = false;
     keyboardEvent.modifiers = Awesomium::WebKeyboardEvent::kModIsAutorepeat;
 
@@ -121,19 +124,13 @@ void CWebBrowser::InjectKeyboardEvent(CWebBrowserItem* pWebBrowserItem, const SS
         keyboardEvent.type = Awesomium::WebKeyboardEvent::kTypeChar;
     }
     
-    pWebBrowserItem->m_pWebView->InjectKeyboardEvent(keyboardEvent);
-
-    // A weird behaviour expects a heap c-string???
-    //char* buffer = new char[20];
-    //Awesomium::GetKeyIdentifierFromVirtualKeyCode(pBindableKey->ulCode, &buffer);
-    //strcpy_s(keyboardEvent.key_identifier, 20, buffer);
-    //delete[] buffer;
+    pWebBrowserItem->m_pWebView->InjectKeyboardEvent(keyboardEvent);*/
 }
 
-bool CWebBrowser::IsURLAllowed(const WebString& strURL)
+bool CWebBrowser::IsURLAllowed(const SString& strURL)
 {
     // Todo: Implement wildcards
-    for (std::vector<WebString>::iterator iter = m_Whitelist.begin(); iter != m_Whitelist.end(); ++iter)
+    for (std::vector<SString>::iterator iter = m_Whitelist.begin(); iter != m_Whitelist.end(); ++iter)
     {
         if (*iter == strURL)
             return true;
@@ -149,7 +146,7 @@ void CWebBrowser::ClearWhitelist()
 
 void CWebBrowser::AddAllowedPage(const SString& strURL)
 {
-    m_Whitelist.push_back(Awesomium::WSLit(strURL.c_str()));
+    m_Whitelist.push_back(strURL);
 }
 
 void CWebBrowser::RequestPages(const std::vector<SString>& pages)
@@ -158,7 +155,7 @@ void CWebBrowser::RequestPages(const std::vector<SString>& pages)
     bool bNewItem = false;
     for (std::vector<SString>::const_iterator iter = pages.begin(); iter != pages.end(); ++iter)
     {
-        if (IsURLAllowed(Awesomium::WSLit(iter->c_str())))
+        if (IsURLAllowed(*iter))
             continue;
 
         m_PendingRequests.push_back(*iter);
@@ -181,7 +178,7 @@ void CWebBrowser::AllowPendingPages()
 {
     for (std::vector<SString>::iterator iter = m_PendingRequests.begin(); iter != m_PendingRequests.end(); ++iter)
     {
-        m_Whitelist.push_back(Awesomium::WSLit(iter->c_str()));
+        m_Whitelist.push_back(*iter);
     }
     m_PendingRequests.clear();
 
@@ -197,13 +194,6 @@ void CWebBrowser::DenyPendingPages()
     CModManager::GetSingleton().GetCurrentMod()->WebsiteRequestResultHandler(false);
 }
 
-void CWebBrowser::WebStringToSString(const WebString& webString, SString& strString)
-{
-    std::stringstream sstream;
-    sstream << webString;
-    sstream >> strString;
-}
-
 ////////////////////////////////////////////////////////////////////
 //                                                                //
 //          CWebBrowserResourceInterceptor section                 //
@@ -211,7 +201,7 @@ void CWebBrowser::WebStringToSString(const WebString& webString, SString& strStr
 // http://www.awesomium.com/docs/1_7_2/cpp_api/class_awesomium_1_1_resource_interceptor.html //
 //                                                                //
 ////////////////////////////////////////////////////////////////////
-bool CWebBrowserResourceInterceptor::OnFilterNavigation(int origin_process_id, int origin_routing_id, const Awesomium::WebString& method, const Awesomium::WebURL& url, bool is_main_frame)
+/*bool CWebBrowserResourceInterceptor::OnFilterNavigation(int origin_process_id, int origin_routing_id, const Awesomium::WebString& method, const Awesomium::WebURL& url, bool is_main_frame)
 {
     if (!g_pCore->GetWebBrowser()->IsURLAllowed(url.host()))
         // Block the action
@@ -229,4 +219,5 @@ Awesomium::ResourceResponse* CWebBrowserResourceInterceptor::OnRequest(Awesomium
 
     // We don't want to modify anything
     return NULL;
-}
+}*/
+

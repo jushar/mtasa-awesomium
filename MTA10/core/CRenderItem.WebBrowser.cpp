@@ -53,7 +53,7 @@ void CWebBrowserItem::PreDestruct ( void )
 ////////////////////////////////////////////////////////////////
 bool CWebBrowserItem::IsValid ( void )
 {
-    return m_pD3DTexture && m_pD3DRenderTargetSurface;
+    return m_pD3DTexture && m_pD3DRenderTargetSurface && m_pWebView;
 }
 
 
@@ -116,7 +116,7 @@ void CWebBrowserItem::CreateUnderlyingData ( void )
     m_iMemoryKBUsed = CRenderItemManager::CalcD3DResourceMemoryKBUsage ( m_pD3DRenderTargetSurface );
 
     // Create the web view
-    m_pWebView = g_pCore->GetWebBrowser()->CreateWebView(m_uiSizeX, m_uiSizeY);
+    m_pWebView = g_pCore->GetWebBrowser()->CreateWebView(m_uiSizeX, m_uiSizeY, m_pD3DRenderTargetSurface);
 }
 
 
@@ -132,9 +132,9 @@ void CWebBrowserItem::ReleaseUnderlyingData ( void )
     SAFE_RELEASE( m_pD3DRenderTargetSurface )
     SAFE_RELEASE( m_pD3DTexture )
     
-    if (m_pWebView)
+    /*if (m_pWebView)
     {
         m_pWebView->Destroy();
         m_pWebView = NULL;
-    }
+    }*/
 }

@@ -37,10 +37,7 @@ class CClientEntityBase;
 struct SShaderItemLayers;
 typedef CShaderItem CSHADERDUMMY;
 enum eAspectRatio;
-namespace Awesomium
-{
-    class WebView;
-}
+class CWebViewInterface;
 
 #define RDEFAULT            ((uint) -1)
 
@@ -514,7 +511,7 @@ class CScreenSourceItem : public CTextureItem
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 //
-// CWebBrowserItem - Awesomium texture
+// CWebBrowserItem - webbrowser texture
 //
 class CWebBrowserItem : public CTextureItem
 {
@@ -528,7 +525,7 @@ class CWebBrowserItem : public CTextureItem
     void            CreateUnderlyingData(void);
     void            ReleaseUnderlyingData(void);
 
-    IDirect3DSurface9*  m_pD3DRenderTargetSurface;
-    Awesomium::WebView* m_pWebView; // the browser "tab"
+    IDirect3DSurface9*    m_pD3DRenderTargetSurface;
+    CWebViewInterface*    m_pWebView; // the browser "tab"
     //uint                m_uiRevision;
 };
