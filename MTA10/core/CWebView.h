@@ -1,4 +1,15 @@
-#pragma once
+/*****************************************************************************
+*
+*  PROJECT:     Multi Theft Auto v1.0
+*               (Shared logic for modifications)
+*  LICENSE:     See LICENSE in the top level directory
+*  FILE:        core/CWebView.h
+*  PURPOSE:     Web view class
+*
+*****************************************************************************/
+
+#ifndef __CWEBVIEW_H
+#define __CWEBVIEW_H
 
 #include <core/CWebViewInterface.h>
 #include <cef/include/cef_client.h>
@@ -38,3 +49,5 @@ private:
     // Implement smartpointer methods (all Cef-classes require that since they are derived from CefBase)
     IMPLEMENT_REFCOUNTING(CWebView);
 };
+
+#endif

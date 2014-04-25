@@ -4,7 +4,7 @@
 *               (Shared logic for modifications)
 *  LICENSE:     See LICENSE in the top level directory
 *  FILE:        mods/shared_logic/CClientWebBrowser.h
-*  PURPOSE:     Web browser (Awesomium) class
+*  PURPOSE:     ClientEntity webbrowser tab class
 *
 *****************************************************************************/
 

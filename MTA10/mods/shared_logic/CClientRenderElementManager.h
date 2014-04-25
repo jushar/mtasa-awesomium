@@ -42,6 +42,7 @@ public:
     uint                    GetShaderCount              ( void )    { return m_uiStatsShaderCount; }
     uint                    GetRenderTargetCount        ( void )    { return m_uiStatsRenderTargetCount; }
     uint                    GetScreenSourceCount        ( void )    { return m_uiStatsScreenSourceCount; }
+    uint                    GetWebBrowserCount          ( void )    { return m_uiStatsWebBrowserCount; }
 protected:
     CClientManager*                                     m_pClientManager;
     CRenderItemManagerInterface*                        m_pRenderItemManager;
@@ -53,4 +54,5 @@ protected:
     uint                                                m_uiStatsShaderCount;
     uint                                                m_uiStatsRenderTargetCount;
     uint                                                m_uiStatsScreenSourceCount;
+    uint                                                m_uiStatsWebBrowserCount;
 };

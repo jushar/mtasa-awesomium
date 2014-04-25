@@ -1,3 +1,13 @@
+/*****************************************************************************
+*
+*  PROJECT:     Multi Theft Auto v1.0
+*               (Shared logic for modifications)
+*  LICENSE:     See LICENSE in the top level directory
+*  FILE:        core/CWebView.cpp
+*  PURPOSE:     Web view class
+*
+*****************************************************************************/
+
 #include "StdInc.h"
 #include "CWebView.h"
 
@@ -62,7 +72,7 @@ CefRefPtr<CefRenderHandler> CWebView::GetRenderHandler()
 ////////////////////////////////////////////////////////////////////
 void CWebView::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
 {
-    int e;
+    
 }
 
 ////////////////////////////////////////////////////////////////////

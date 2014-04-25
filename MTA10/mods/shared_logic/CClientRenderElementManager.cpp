@@ -28,6 +28,7 @@ CClientRenderElementManager::CClientRenderElementManager ( CClientManager* pClie
     m_uiStatsShaderCount = 0;
     m_uiStatsRenderTargetCount = 0;
     m_uiStatsScreenSourceCount = 0;
+    m_uiStatsWebBrowserCount = 0;
 }
 
 
@@ -242,7 +243,7 @@ CClientWebBrowser* CClientRenderElementManager::CreateWebBrowser(uint uiSizeX, u
     MapSet(m_ItemElementMap, pWebBrowserItem, pWebBrowserElement);
 
     // Update stats
-    m_uiStatsScreenSourceCount++; // Todo: Replace by webbrowsercount
+    m_uiStatsWebBrowserCount++;
 
     return pWebBrowserElement;
 }
@@ -319,6 +320,9 @@ void CClientRenderElementManager::Remove ( CClientRenderElement* pElement )
     else
     if ( pElement->IsA ( CClientScreenSource::GetClassId () ) )
         m_uiStatsScreenSourceCount--;
+    else
+    if ( pElement->IsA ( CClientWebBrowser::GetClassId () ) )
+        m_uiStatsWebBrowserCount--;
     else
     if ( pElement->IsA ( CClientTexture::GetClassId () ) )
         m_uiStatsTextureCount--;

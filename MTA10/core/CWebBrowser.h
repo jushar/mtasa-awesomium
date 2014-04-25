@@ -4,14 +4,14 @@
 *               (Shared logic for modifications)
 *  LICENSE:     See LICENSE in the top level directory
 *  FILE:        core/CWebBrowser.h
-*  PURPOSE:     Awesomium class
+*  PURPOSE:     Webbrowser class
 *
 *****************************************************************************/
 
 #ifndef __CWEBBROWSER_H
 #define __CWEBBROWSER_H
 
-#undef GetNextSibling
+#undef GetNextSibling // Hack that fixes name conflicts with windows.h
 #include <core/CWebBrowserInterface.h>
 #include <cef/include/cef_app.h>
 #include <cef/include/cef_browser.h>
@@ -19,6 +19,7 @@
 #include <cef/include/cef_render_handler.h>
 #include <cef/include/cef_command_line.h>
 #include <cef/include/cef_task.h>
+#define GetNextSibling(hwnd) GetWindow(hwnd, GW_HWNDNEXT) // Re-define the conflicting macro
 
 class CWebBrowserItem;
 class CWebsiteRequests;
