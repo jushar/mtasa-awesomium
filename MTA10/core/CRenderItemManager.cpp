@@ -468,7 +468,7 @@ void CRenderItemManager::UpdateWebBrowser(CWebBrowserItem* pWebBrowserItem)
     pScreenSourceItem->m_uiRevision = m_uiBackBufferCopyRevision;*/
 
     // Update CEF
-    CefDoMessageLoopWork();
+    //CefDoMessageLoopWork();
 
     // Tell awesomium that we'd like to update the texture
     /*if (pWebBrowserItem->m_pWebView->IsLoading())

@@ -113,7 +113,7 @@
       <AdditionalDependencies>strmiids.lib;libv2.lib;zlib_d.lib;libpng_d.lib;odbc32.lib;odbccp32.lib;dinput8.lib;dxguid.lib;shlwapi.lib;d3dx9.lib;winmm.lib;Imagehlp.lib;ws2_32.lib;gdi32.lib;Userenv.lib;Imm32.lib;pthreadVC2.lib;jpeg_d.lib;Psapi.lib;xinput.lib;wininet.lib;dnsapi.lib;version.lib;msimg32.lib;usp10.lib;psapi.lib;dbghelp.lib;kernel32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;rpcrt4.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../Shared/XML;../../vendor/libv2/lib;../../vendor/libpng/$(PlatformTarget)/$(Configuration);../../vendor/zlib/$(PlatformTarget)/$(Configuration);../../vendor/detours/lib;../../vendor/pthreads/lib/$(PlatformTarget);../../vendor/jpeg/$(PlatformTarget)/$(Configuration);../../vendor/cef/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Shared/XML;../../vendor/libv2/lib;../../vendor/libpng/$(PlatformTarget)/$(Configuration);../../vendor/zlib/$(PlatformTarget)/$(Configuration);../../vendor/detours/lib;../../vendor/pthreads/lib/$(PlatformTarget);../../vendor/jpeg/$(PlatformTarget)/$(Configuration);../../vendor/cef/lib/debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <MapFileName />

@@ -18,6 +18,7 @@ class CWebBrowserInterface
 {
 public:
     virtual CWebViewInterface* CreateWebView(unsigned int uiWidth, unsigned int uiHeight, IDirect3DSurface9* pD3DSurface) = 0;
+    virtual void Update() = 0;
     
     virtual void GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY) = 0;
     virtual void SetScrollPosition(CWebBrowserItem* pWebBrowserItem, int iScrollX, int iScrollY) = 0;

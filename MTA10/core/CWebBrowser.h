@@ -32,6 +32,7 @@ public:
     bool Initialise();
 
     CWebViewInterface* CreateWebView(unsigned int uiWidth, unsigned int uiHeight, IDirect3DSurface9* pD3DSurface);
+    void Update();
     
     void GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY);
     void SetScrollPosition(CWebBrowserItem* pWebBrowserItem, int iScrollX, int iScrollY);

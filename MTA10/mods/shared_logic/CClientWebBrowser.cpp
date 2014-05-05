@@ -18,6 +18,7 @@ CClientWebBrowser::CClientWebBrowser(CClientManager* pManager, ElementID ID, CWe
 
 CClientWebBrowser::~CClientWebBrowser()
 {
+    Unlink ();
 }
 
 bool CClientWebBrowser::IsLoading()
@@ -32,12 +33,12 @@ bool CClientWebBrowser::LoadURL(const SString& strURL)
 
 void CClientWebBrowser::GetTitle(SString& outPageTitle)
 {
-    outPageTitle = "todo";
+    m_pWebView->GetTitle(outPageTitle);
 }
 
 void CClientWebBrowser::GetURL(SString& outURL)
 {
-    outURL = "todo";
+    m_pWebView->GetURL(outURL);
 }
 
 void CClientWebBrowser::GetScrollPosition(int& iScrollX, int& iScrollY)

@@ -16,6 +16,9 @@ class CWebViewInterface
 public:
     virtual bool LoadURL(const SString& strURL) = 0;
     virtual bool IsLoading() = 0;
+    
+    virtual void GetURL(SString& outURL) = 0;
+    virtual void GetTitle(SString& outTitle) = 0;
 
 };
 

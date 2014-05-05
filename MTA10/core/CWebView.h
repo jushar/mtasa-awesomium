@@ -25,6 +25,8 @@ public:
     // Exported methods
     bool LoadURL(const SString& strURL);
     bool IsLoading();
+    void GetURL(SString& outURL);
+    void GetTitle(SString& outTitle);
 
     // CefClient methods
     virtual CefRefPtr<CefLoadHandler> GetLoadHandler() override;
@@ -40,12 +42,10 @@ public:
     virtual void OnPaint(CefRefPtr<CefBrowser> browser, CefRenderHandler::PaintElementType paintType, const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width, int height) override;
 
 private:
-    CefRefPtr<CefBrowser> m_pBrowserHost;
-
-    unsigned int m_uiSizeX;
-    unsigned int m_uiSizeY;
+    CefRefPtr<CefBrowser> m_pBrowser;
     IDirect3DSurface9* m_pD3DSurface;
 
+public:
     // Implement smartpointer methods (all Cef-classes require that since they are derived from CefBase)
     IMPLEMENT_REFCOUNTING(CWebView);
 };

@@ -18,10 +18,10 @@ CWebView::CWebView(IDirect3DSurface9* pD3DSurface)
     // Create a new offscreen webview
     CefBrowserSettings browserSettings;
     CefWindowInfo windowInfo;
-    windowInfo.SetAsOffScreen(nullptr); // Enable offscreen rendering
+    windowInfo.SetAsOffScreen(NULL); // Enable offscreen rendering
 
     // Create the "proper" browser
-    m_pBrowserHost = CefBrowserHost::CreateBrowserSync(windowInfo, this, "", browserSettings, NULL);
+    m_pBrowser = CefBrowserHost::CreateBrowserSync(windowInfo, this, "http://google.de/", browserSettings, NULL);
 }
 
 bool CWebView::LoadURL(const SString& strURL)
@@ -30,15 +30,24 @@ bool CWebView::LoadURL(const SString& strURL)
     /*if (!IsURLAllowed(webURL.host()))
         return false; */
 
-    m_pBrowserHost->GetMainFrame()->LoadURL(strURL);
+    m_pBrowser->GetMainFrame()->LoadURL(strURL);
     return true;
 }
 
 bool CWebView::IsLoading()
 {
-    return m_pBrowserHost->IsLoading();
+    return m_pBrowser->IsLoading();
 }
 
+void CWebView::GetURL(SString& outURL)
+{
+    outURL = static_cast<SString>(m_pBrowser->GetMainFrame()->GetURL());
+}
+
+void CWebView::GetTitle(SString& outTitle)
+{
+    outTitle = static_cast<SString>(m_pBrowser->GetMainFrame()->GetName());
+}
 
 ////////////////////////////////////////////////////////////////////
 //                                                                //
@@ -108,7 +117,10 @@ bool CWebView::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
     D3DSURFACE_DESC SurfaceDesc;
     m_pD3DSurface->GetDesc(&SurfaceDesc);
 
-    rect = CefRect(0, 0, SurfaceDesc.Width, SurfaceDesc.Height);
+    rect.x = 0;
+    rect.y = 0;
+    rect.width = SurfaceDesc.Width;
+    rect.height = SurfaceDesc.Height;
     return true;
 }
 

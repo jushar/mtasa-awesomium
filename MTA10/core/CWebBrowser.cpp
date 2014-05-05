@@ -56,16 +56,24 @@ bool CWebBrowser::Initialise()
 #if !CEF_ENABLE_SANDBOX
      settings.no_sandbox = true;
 #endif
-     settings.multi_threaded_message_loop = false;
-    
+
+     // Set as single-processed (The way CEF implements Chromium's multi-process architecture is not suitable for our GTA DLL injection system)
+     settings.single_process = true;
+     //settings.multi_threaded_message_loop = true;
+     
      return CefInitialize(mainArgs, settings, NULL, sandboxInfo);
 }
 
 CWebViewInterface* CWebBrowser::CreateWebView(unsigned int uiWidth, unsigned int uiHeight, IDirect3DSurface9* pD3DSurface)
 {
     // Create our webview implementation
-    CefRefPtr<CWebView> webView = new CWebView(pD3DSurface);
-    return webView.get();
+    CWebView* pWebView = new CWebView(pD3DSurface);
+    return pWebView;
+}
+
+void CWebBrowser::Update()
+{
+    CefDoMessageLoopWork();
 }
 
 void CWebBrowser::GetScrollPosition(CWebBrowserItem* pWebBrowserItem, int& iScrollX, int& iScrollY)
